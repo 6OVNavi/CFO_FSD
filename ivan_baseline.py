@@ -30,6 +30,7 @@ print(train)
 train['CurrentPrice']=train['CurrentPrice'].fillna(1e9)
 
 train.loc[train.StockStatus=='InStock', 'StockStatus']=1
+train.loc[train.StockStatus=='Instock', 'StockStatus']=1
 train.loc[train.StockStatus=='OutOfStock', 'StockStatus']=0
 
 #train=pd.get_dummies(train,columns=['StockStatus'])
