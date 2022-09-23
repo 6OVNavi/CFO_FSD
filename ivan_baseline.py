@@ -27,9 +27,12 @@ print(list(train.columns))
 
 print(train)
 
-train['CurrentPrice']=train['CurrentPrice'].fillna(0)
+train['CurrentPrice']=train['CurrentPrice'].fillna(1e9)
 
-train=pd.get_dummies(train,columns=['StockStatus'])
+train.loc[train.StockStatus=='InStock', 'StockStatus']=1
+train.loc[train.StockStatus=='OutOfStock', 'StockStatus']=0
+
+#train=pd.get_dummies(train,columns=['StockStatus'])
 
 from catboost import CatBoostRegressor
 
