@@ -40,10 +40,10 @@ y=train['target']
 
 from sklearn.model_selection import train_test_split
 
-X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=seed)
 
 
-cb=CatBoostRegressor(iterations=5000,eval_metric='R2')
+cb=CatBoostRegressor(iterations=60,custom_metric=['RMSE','R2'],random_state=seed)
 cb.fit(X_train,y_train,eval_set=(X_val,y_val))
 
 print(cb.best_score_,cb.best_iteration_)
