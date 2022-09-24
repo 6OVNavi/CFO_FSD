@@ -39,7 +39,7 @@ print(list(train.columns))
 
 print(train)
 
-train['CurrentPrice']=train['CurrentPrice'].fillna(0)
+train['CurrentPrice']=train['CurrentPrice'].fillna(1e6)
 
 train.loc[train.StockStatus=='InStock', 'StockStatus']=1
 train.loc[train.StockStatus=='Instock', 'StockStatus']=1
@@ -54,7 +54,7 @@ train['CurrentPrice_var']=train.groupby(by=['WebPriceId','month','year'])['Curre
 from sklearn.cluster import KMeans
 import pickle
 
-kmeans=KMeans(n_clusters=10, random_state=seed)
+'''kmeans=KMeans(n_clusters=10, random_state=seed)
 
 kmeans.fit(np.array(train['CurrentPrice']).reshape(-1,1))
 
@@ -62,7 +62,7 @@ with open('kmeans.pkl','wb') as f:
     pickle.dump(kmeans,f)
 
 train['clustered_price']=kmeans.predict(np.array(train['CurrentPrice']).reshape(-1,1))
-
+'''
 #train.to_parquet('in_between.parquet')
 
 '''sns.set_theme(font_scale=0.6)
@@ -75,7 +75,7 @@ plt.show()'''
 
 from catboost import CatBoostRegressor
 
-train.to_parquet('train_end.parquet')
+#train.to_parquet('train_end.parquet')
 
 X=train.drop('target',axis=1)
 y=train['target']
