@@ -19,6 +19,11 @@ pd.set_option('display.max_columns', None)
 
 train=pd.read_parquet('train_merged.parquet')
 
+#temp=train[(train['year']==2022)&(train['month']==5)]
+#print(train)
+
+#print(temp)
+#exit(0)
 train=train.drop('DateObserve',axis=1)
 
 print(train.isna().sum())
@@ -40,14 +45,19 @@ from catboost import CatBoostRegressor
 X=train.drop('target',axis=1)
 y=train['target']
 
+X_train=X[:64720336]
+y_train=y[:64720336]
 
-
+X_val=X[64720336:]
+y_val=y[64720336:]
+print(X_train)
+print(X_val)
 from sklearn.model_selection import train_test_split
 
-X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=seed)
+#X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=seed)
 
 
-cb=CatBoostRegressor(iterations=60,custom_metric=['RMSE','R2'],random_state=seed)
+cb=CatBoostRegressor(iterations=200,custom_metric=['RMSE','R2','MAE'],random_state=seed,learning_rate=0.01)
 cb.fit(X_train,y_train,eval_set=(X_val,y_val))
 
 print(cb.best_score_,cb.best_iteration_)
