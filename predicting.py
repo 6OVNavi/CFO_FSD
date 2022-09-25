@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
 
-csv='tests/DS_test5(2020-06--2022-07-21).csv'
+csv='tests/DS_test6(2020-06--2022-08-01).csv'
 
-train=pd.read_csv(csv,sep='\t')
+train=pd.read_csv(csv,sep='\t',skiprows=range(1, 64720336))
 print(train)
 def get_dt(x):
     date, time = x.split(' ')
@@ -63,6 +63,8 @@ train['CurrentPrice_var']=train.groupby(by=['WebPriceId','month','year'])['Curre
 print('2')
 
 train = train.sort_values(by='ind_hour')
+print(train)
+train=train.drop('DateObserve',axis=1)
 
 print('3')
 
